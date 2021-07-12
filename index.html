@@ -107,6 +107,11 @@
             },
             methods: {
                 countEvent: function () {
+                    if (_.trim(this.buy_price) === "") { this.buy_price = 0; }
+                    if (_.trim(this.buy_number) === "") { this.buy_number = 0; }
+                    if (_.trim(this.sell_price) === "") { this.sell_price = 0; }
+                    if (_.trim(this.sell_number) === "") { this.sell_number = 0; }
+
                     let buy_sum = _.reduce([this.buy_price, this.buy_number], _.multiply);
                     this.buy_fee = _.round(_.reduce([buy_sum, this.buy_discount, 0.001425], _.multiply));
                     this.buy_total = _.sum([buy_sum, this.buy_fee]);
