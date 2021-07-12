@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stillF&nbsp;-&nbsp;股票手續費</title>
+    <link rel="stylesheet" type="text/css" href="/StockTransactionFee/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/StockTransactionFee/css/fontawesome-all.css">
+    <script type="text/javascript" src="/StockTransactionFee/js/vue.js"></script>
+    <script type="text/javascript" src="/StockTransactionFee/js/lodash.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3">
+        <div class="container-fluid">
+            <a href="https://stillf.github.io/" class="navbar-brand" style="color:#ffffff;margin-left:10px;font-size:18px;" target="_blank">stillF&ensp;信柴柴，得第一</a>
+        </div>
+    </nav>
+    <main class="container" style="margin-bottom:50px;" id="stock">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div style="color:#333;font-size:22px;font-weight:bold;">
+                股票手續費
+                <a href="https://github.com/stillF/PttArticle" style="margin-left:5px;" target="_blank"><i class="fas fa-link"></i></a>
+            </div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-md-5 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        買入資料
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">成交價</span>
+                            <input type="number" class="form-control" aria-describedby="basic-addon1" v-model="buy_price">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon2">股數</span>
+                            <input type="number" class="form-control" aria-describedby="basic-addon2" v-model="buy_number">
+                        </div>
+                        <select class="form-select form-select-sm" v-model="buy_discount">
+                            <option value="1">沒折扣</option>
+                            <option value="0.65">65折</option>
+                        </select>
+                        <hr />
+                        <p class="h6">手續費：{{ buy_fee }}</p>
+                        <p class="h6">總付款：{{ buy_total }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        賣出資料
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">成交價</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1" v-model="sell_price">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon2">股數</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon2" v-model="sell_number">
+                        </div>
+                        <select class="form-select form-select-sm" v-model="sell_discount">
+                            <option value="1">沒折扣</option>
+                            <option value="0.65">65折</option>
+                        </select>
+                        <hr />
+                        <p class="h6">手續費：{{ sell_fee }}</p>
+                        <p class="h6">交易費：{{ sell_transaction }}</p>
+                        <p class="h6">總付款：{{ sell_total }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-grid gap-2 col-10" style="margin-top:20px;">
+                <button class="btn btn-primary btn-sm" type="button" style="margin-bottom:20px;" v-on:click="countEvent">計算</button>
+                <p class="h6">獲利：{{ profit }}</p>
+                <p class="h6">獲利率：{{ profit_rate }} %</p>
+            </div>
+        </div>
+    </main>
+    <footer class="footer py-1 bg-dark">
+        <div class="container text-center">
+            <span style="color:#ffffff;font-size:14px;">© Copyright 2021. All Rights Reserved.</span>
+        </div>
+    </footer>
+    <script>
+        new Vue({
+            el: '#stock',
+            data: {
+                buy_price: 0,
+                buy_number: 1000,
+                buy_fee: 0,
+                buy_total: 0,
+                buy_discount: 1,
+                sell_price: 0,
+                sell_number: 1000,
+                sell_fee: 0,
+                sell_transaction: 0,
+                sell_total: 0,
+                sell_discount: 1,
+                profit: 0,
+                profit_rate: 0
+            },
+            methods: {
+                countEvent: function () {
+                    let buy_sum = _.reduce([this.buy_price, this.buy_number], _.multiply);
+                    this.buy_fee = _.round(_.reduce([buy_sum, this.buy_discount, 0.001425], _.multiply));
+                    this.buy_total = _.sum([buy_sum, this.buy_fee]);
+
+                    let sell_sum = _.reduce([this.sell_price, this.sell_number], _.multiply);
+                    this.sell_fee = _.round(_.reduce([sell_sum, this.sell_discount, 0.001425], _.multiply));
+                    this.sell_transaction = _.round(_.reduce([sell_sum, this.sell_discount, 0.003], _.multiply));
+                    this.sell_total = _.sum([sell_sum, -(this.sell_fee), -(this.sell_transaction)]);
+
+                    this.profit = _.sum([this.sell_total, -(this.buy_total)]);
+                    let _profit_rate = _.round(_.multiply(_.divide(this.profit, this.buy_total), 100), 2);
+                    this.profit_rate = (_.isNaN(_profit_rate)) ? "0" : _profit_rate;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
