@@ -631,15 +631,15 @@
       if (config.warnHandler) {
         config.warnHandler.call(null, msg, vm, trace);
       } else if (hasConsole && (!config.silent)) {
-        console.error(("[Vue warn]: " + msg + trace));
+        //console.error(("[Vue warn]: " + msg + trace));
       }
     };
 
     tip = function (msg, vm) {
       if (hasConsole && (!config.silent)) {
-        console.warn("[Vue tip]: " + msg + (
-          vm ? generateComponentTrace(vm) : ''
-        ));
+        //console.warn("[Vue tip]: " + msg + (
+        //  vm ? generateComponentTrace(vm) : ''
+        //));
       }
     };
 
@@ -1903,7 +1903,7 @@
     }
     /* istanbul ignore else */
     if ((inBrowser || inWeex) && typeof console !== 'undefined') {
-      console.error(err);
+      //console.error(err);
     } else {
       throw err
     }
@@ -6435,9 +6435,9 @@
                   !hydrationBailed
                 ) {
                   hydrationBailed = true;
-                  console.warn('Parent: ', elm);
-                  console.warn('server innerHTML: ', i);
-                  console.warn('client innerHTML: ', elm.innerHTML);
+                  //console.warn('Parent: ', elm);
+                  //console.warn('server innerHTML: ', i);
+                  //console.warn('client innerHTML: ', elm.innerHTML);
                 }
                 return false
               }
@@ -6460,8 +6460,8 @@
                   !hydrationBailed
                 ) {
                   hydrationBailed = true;
-                  console.warn('Parent: ', elm);
-                  console.warn('Mismatching childNodes vs. VNodes: ', elm.childNodes, children);
+                  //console.warn('Parent: ', elm);
+                  //console.warn('Mismatching childNodes vs. VNodes: ', elm.childNodes, children);
                 }
                 return false
               }
@@ -6970,7 +6970,7 @@
 
   /* eslint-disable no-unused-vars */
   function baseWarn (msg, range) {
-    console.error(("[Vue compiler]: " + msg));
+    //console.error(("[Vue compiler]: " + msg));
   }
   /* eslint-enable no-unused-vars */
 
@@ -9096,20 +9096,20 @@
         if (devtools) {
           devtools.emit('init', Vue);
         } else {
-          console[console.info ? 'info' : 'log'](
-            'Download the Vue Devtools extension for a better development experience:\n' +
-            'https://github.com/vuejs/vue-devtools'
-          );
+          //console[console.info ? 'info' : 'log'](
+          //  'Download the Vue Devtools extension for a better development experience:\n' +
+          //  'https://github.com/vuejs/vue-devtools'
+          //);
         }
       }
       if (config.productionTip !== false &&
         typeof console !== 'undefined'
       ) {
-        console[console.info ? 'info' : 'log'](
-          "You are running Vue in development mode.\n" +
-          "Make sure to turn on production mode when deploying for production.\n" +
-          "See more tips at https://vuejs.org/guide/deployment.html"
-        );
+        //console[console.info ? 'info' : 'log'](
+        //  "You are running Vue in development mode.\n" +
+        //  "Make sure to turn on production mode when deploying for production.\n" +
+        //  "See more tips at https://vuejs.org/guide/deployment.html"
+        //);
       }
     }, 0);
   }
