@@ -125,12 +125,12 @@
                     let _profit_rate = _.round(_.multiply(_.divide(this.profit, this.buy_total), 100), 2);
                     if (_.isFinite(_profit_rate)) {
                         if (_.isNaN(_profit_rate)) {
-                            this.profit_rate = 0;
+                            this.profit_rate = "Error";
                         } else {
                             this.profit_rate = _profit_rate;
                         }
                     } else {
-                        this.profit_rate = 0;
+                        this.profit_rate = "Error";
                     }
                 }
             }
