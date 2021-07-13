@@ -123,7 +123,11 @@
 
                     this.profit = _.sum([this.sell_total, -(this.buy_total)]);
                     let _profit_rate = _.round(_.multiply(_.divide(this.profit, this.buy_total), 100), 2);
-                    this.profit_rate = (_.isNumber(_profit_rate)) ? _profit_rate : "0";
+                    if (_.isFinite(_profit_rate)) {
+                        this.profit_rate = (_.isNumber(_profit_rate)) ? _profit_rate : 0;
+                    } else {
+                        this.profit_rate = 0;
+                    }
                 }
             }
         })
