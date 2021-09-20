@@ -119,7 +119,8 @@
 
                     let buy_sum = _.reduce([this.buy_price, this.buy_number], _.multiply);
                     this.buy_fee = _.round(_.reduce([buy_sum, this.buy_discount, 0.001425], _.multiply));
-                    this.buy_total = new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }).format(_.sum([buy_sum, this.buy_fee]));
+                    let _buy_total = _.sum([buy_sum, this.buy_fee]);
+                    this.buy_total = new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }).format(_buy_total);
 
                     let sell_sum = _.reduce([this.sell_price, this.sell_number], _.multiply);
                     this.sell_fee = _.round(_.reduce([sell_sum, this.sell_discount, 0.001425], _.multiply));
@@ -128,12 +129,13 @@
                     } else {
                         this.sell_transaction = _.round(_.reduce([sell_sum, this.sell_discount, 0.003], _.multiply));
                     }
-                    this.sell_total = new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }).format(_.sum([sell_sum, -(this.sell_fee), -(this.sell_transaction)]));
+                    let _sell_total = _.sum([sell_sum, -(this.sell_fee), -(this.sell_transaction)]);
+                    this.sell_total = new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }).format(_sell_total);
 
-                    let _profit = _.sum([this.sell_total, -(this.buy_total)]);
-                    if (_profit !== 0 && this.buy_total !== 0) {
+                    let _profit = _.sum([_sell_total, -(_buy_total)]);
+                    if (_profit !== 0 && _buy_total !== 0) {
                         this.profit = new Intl.NumberFormat('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }).format(_profit);
-                        this.profit_rate = _.round(_.multiply(_.divide(_profit, this.buy_total), 100), 2);
+                        this.profit_rate = _.round(_.multiply(_.divide(_profit, _buy_total), 100), 2);
                     } else {
                         this.profit = "Error";
                         this.profit_rate = "Error";
